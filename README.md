@@ -3,8 +3,13 @@ A Discord bot which can make Giveaways, Ban, Unban, Kick, Mute, Unmute, Antispam
 Un bot de Discord que puede crear Sorteos, Banear, Desbanear, Kickear, Mutear, Desmutear, Antispam y Eliminar mensajes con links.
 
 ## How can I use it? / ¿Cómo puedo usarlo?
-EN: Configure the file botConfig.json.
-ES: Configura el archivo botConfig.json.
+### Python 3
+- **EN:** Install packages.
+- **ES:** Instala los paquetes.
+`pip install -r requirements.txt` or `pip3 install -r requirements.txt`
+
+- **EN:** Configure the file botConfig.json.
+- **ES:** Configura el archivo botConfig.json.
 
 #### Example/Ejemplo:
 ```
