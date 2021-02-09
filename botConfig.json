@@ -4,5 +4,6 @@
     "adminsMute":[12345678910,12345678910],
     "adminsPro":[12345678910,12345678910],
     "sorteos":[12345678910,12345678910],
-    "rolConEnlaces":12345678910
+    "rolConEnlaces":12345678910,
+    "rolSilenciado":"🔇SILENCIADO"
 }
