@@ -23,32 +23,35 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="lo que quieras jeje"))
 
 #MUTE
-async def silenciarUsuario(user, razon=".", temp=120):
-    await user.add_roles(discord.utils.get(user.guild.roles, name=nombreRolSilenciado) #LE PONE EL ROL DE SILENCIADO
+async def silenciarUsuario(user, razon=".", temp=2):
+    await user.add_roles(discord.utils.get(user.guild.roles, name=nombreRolSilenciado)) #LE PONE EL ROL DE SILENCIADO
     #CREA UN EMBED (Mensaje bonito :D que se hace mediante la API)
     embedVar = discord.Embed(title=f"🔇ESTÁS SILENCIADO🔇", color=discord.Colour.red())
     embedVar.add_field(name=f"Razón: ", value=f"{razon}!", inline=True)
-    embedVar.add_field(name=f"Duración silencio: ", value=f"{temp} segundos!", inline=True)
+    embedVar.add_field(name=f"Duración silencio: ", value=f"{temp} minutos!", inline=True)
     embedVar.set_footer(text="No vuelvas a hacerlo o volverás a ser sancionado!")
     embedVar.set_thumbnail(url="https://cdn.discordapp.com/avatars/idBot/b6560d97f36345f486cf34eb51c150d3.png?size=128")
     #ENVÍA EL EMBED A EL USUARIO POR UN MENSAJE PRIVADO
     await user.send(embed=embedVar)
     #ESPERA EL TIEMPO QUE SE HAYA CONFIGURADO PARA DESPUÉS ELIMINAR EL ROL SILENCIADO
-    await asyncio.sleep(temp)
+    await asyncio.sleep(temp*60)
     await user.remove_roles(discord.utils.get(user.guild.roles, name=nombreRolSilenciado))
 
 @client.command()
-async def silenciar(ctx, user: discord.Member, razon="No especificada",temp="120"):
+async def silenciar(ctx, user: discord.Member, razon="No especificada",temp="2"):
     roles = []
     for x in ctx.message.author.roles:
         roles.append(x.id)
     if any(item in roles for item in adminMute)==False:
         await ctx.send("NO tienes permisos para usar este comando.")
         return
-    await ctx.send(f"{user.mention} **SILENCIADO** DURANTE **{temp}secs** RAZÓN: **{razon}**!")
+    await ctx.send(f"{user.mention} **SILENCIADO** DURANTE **{temp}mins** RAZÓN: **{razon}**!")
     
     for x in user.roles:
-        await user.remove_roles(x.id)
+        try:
+            await user.remove_roles(x)
+        except:
+            pass
     await silenciarUsuario(user, razon=razon,temp=int(temp))
 
 @client.command()
