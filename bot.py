@@ -8,7 +8,7 @@ import re
 
 client = commands.Bot(command_prefix="!")
 
-jsonCredenciales = json.loads(open("botConfig.json").read())
+jsonCredenciales = json.loads(open("botConfig.json","r",encoding="utf-8").read())
 idBot = jsonCredenciales["idBot"]
 token = jsonCredenciales["token"]
 adminMute = jsonCredenciales["adminsMute"]
