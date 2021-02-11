@@ -47,11 +47,11 @@ async def silenciar(ctx, user: discord.Member, razon="No especificada",temp="2")
         return
     await ctx.send(f"{user.mention} **SILENCIADO** DURANTE **{temp}mins** RAZÓN: **{razon}**!")
     
-    for x in user.roles:
-        try:
-            await user.remove_roles(x)
-        except:
-            pass
+    #for x in user.roles:
+    #    try:
+    #        await user.remove_roles(x)
+    #    except:
+    #        pass
     await silenciarUsuario(user, razon=razon,temp=int(temp))
 
 @client.command()
