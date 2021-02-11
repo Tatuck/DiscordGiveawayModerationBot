@@ -15,6 +15,7 @@ adminMute = jsonCredenciales["adminsMute"]
 adminPro = jsonCredenciales["adminsPro"]
 sorteadores = jsonCredenciales["sorteos"] #lol
 rolConEnlaces = str(jsonCredenciales["rolConEnlaces"])
+nombreRolSilenciado = jsonCredenciales["rolSilenciado"]
 
 @client.event
 async def on_ready():
@@ -23,7 +24,7 @@ async def on_ready():
 
 #MUTE
 async def silenciarUsuario(user, razon=".", temp=120):
-    await user.add_roles(discord.utils.get(user.guild.roles, name="🔇SILENCIADO")) #LE PONE EL ROL DE SILENCIADO
+    await user.add_roles(discord.utils.get(user.guild.roles, name=nombreRolSilenciado) #LE PONE EL ROL DE SILENCIADO
     #CREA UN EMBED (Mensaje bonito :D que se hace mediante la API)
     embedVar = discord.Embed(title=f"🔇ESTÁS SILENCIADO🔇", color=discord.Colour.red())
     embedVar.add_field(name=f"Razón: ", value=f"{razon}!", inline=True)
@@ -34,7 +35,7 @@ async def silenciarUsuario(user, razon=".", temp=120):
     await user.send(embed=embedVar)
     #ESPERA EL TIEMPO QUE SE HAYA CONFIGURADO PARA DESPUÉS ELIMINAR EL ROL SILENCIADO
     await asyncio.sleep(temp)
-    await user.remove_roles(discord.utils.get(user.guild.roles, name="🔇SILENCIADO"))
+    await user.remove_roles(discord.utils.get(user.guild.roles, name=nombreRolSilenciado))
 
 @client.command()
 async def silenciar(ctx, user: discord.Member, razon="No especificada",temp="120"):
@@ -58,7 +59,7 @@ async def desilenciar(ctx, user: discord.Member):
     if any(item in roles for item in adminMute)==False:
         await ctx.send("NO tienes permisos para usar este comando.")
         return
-    await user.remove_roles(discord.utils.get(user.guild.roles, name="🔇SILENCIADO"))
+    await user.remove_roles(discord.utils.get(user.guild.roles, name=nombreRolSilenciado))
 
 #https://stackoverflow.com/a/50790119/12994909
 regexUrl="http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
@@ -74,7 +75,7 @@ async def on_message(msg):
         if len(re.findall(regexUrl,msg.content))>0:
             await msg.delete()
             await msg.channel.send(f"{msg.author.mention} No puedes publicar enlaces!!")
-    if "🔇SILENCIADO" in str(msg.author.roles): #SI ESTÁ SILENCIADO ELIMINA EL MENSAJE
+    if nombreRolSilenciado in str(msg.author.roles): #SI ESTÁ SILENCIADO ELIMINA EL MENSAJE
         await msg.delete()
         return
     retry_after = cooldown.update_rate_limit(msg)
