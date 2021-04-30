@@ -14,7 +14,7 @@ token = jsonCredenciales["token"]
 adminMute = jsonCredenciales["adminsMute"]
 adminPro = jsonCredenciales["adminsPro"]
 sorteadores = jsonCredenciales["sorteos"] #lol
-rolConEnlaces = str(jsonCredenciales["rolConEnlaces"])
+rolConEnlaces = jsonCredenciales["rolConEnlaces"]
 nombreRolSilenciado = jsonCredenciales["rolSilenciado"]
 
 @client.event
@@ -74,7 +74,7 @@ async def on_message(msg):
     if msg.guild ==None:
         print(f"Mensaje: {msg.author}: {msg.content}")
         return
-    if rolConEnlaces not in msg.author.roles:
+    if [x for x in msg.author.roles if x in rolConEnlaces] == []:
         if len(re.findall(regexUrl,msg.content))>0:
             await msg.delete()
             await msg.channel.send(f"{msg.author.mention} No puedes publicar enlaces!!")
